@@ -1,0 +1,21 @@
+{
+    "name": "telegram-platform/contracts",
+    "description": "Shared public contracts, DTOs, and domain events for the Telegram Bot Platform.",
+    "type": "library",
+    "license": "proprietary",
+    "version": "0.1.0",
+    "require": {
+        "php": "^8.3",
+        "psr/clock": "^1.0",
+        "psr/container": "^2.0",
+        "psr/event-dispatcher": "^1.0",
+        "psr/log": "^3.0",
+        "psr/simple-cache": "^3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Platform\\Contracts\\": "src/"
+        }
+    },
+    "minimum-stability": "stable"
+}

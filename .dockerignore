@@ -1,0 +1,11 @@
+.git
+.idea
+.vscode
+var/cache/*
+var/log/*
+var/tmp/*
+!var/cache/.gitkeep
+!var/log/.gitkeep
+!var/tmp/.gitkeep
+.phpunit.cache
+coverage

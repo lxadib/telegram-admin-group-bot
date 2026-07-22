@@ -1,0 +1,16 @@
+parameters:
+    level: 8
+    paths:
+        - contracts/src
+        - kernel/src
+        - apps
+        - config
+        - tests
+    excludePaths:
+        - apps/*/vendor
+    tmpDir: var/cache/phpstan
+
+includes:
+    - vendor/phpstan/phpstan-phpunit/extension.neon
+    - vendor/phpstan/phpstan-phpunit/rules.neon
+    - vendor/phpstan/phpstan-strict-rules/rules.neon

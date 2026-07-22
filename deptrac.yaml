@@ -1,0 +1,27 @@
+deptrac:
+  paths:
+    - ./contracts/src
+    - ./kernel/src
+    - ./apps
+  exclude_files:
+    - '#.*test.*#'
+  layers:
+    - name: Contracts
+      collectors:
+        - type: classLike
+          value: Platform\\Contracts\\.*
+    - name: Kernel
+      collectors:
+        - type: classLike
+          value: Platform\\Kernel\\.*
+    - name: Apps
+      collectors:
+        - type: classLike
+          value: Platform\\Apps\\.*
+  ruleset:
+    Contracts: ~
+    Kernel:
+      - Contracts
+    Apps:
+      - Kernel
+      - Contracts

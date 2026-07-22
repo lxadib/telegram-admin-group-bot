@@ -1,0 +1,19 @@
+{
+    "name": "telegram-platform/kernel",
+    "description": "Platform kernel: bootstrap, module loader, DI integration, lifecycle.",
+    "type": "library",
+    "license": "proprietary",
+    "version": "0.1.0",
+    "require": {
+        "php": "^8.3",
+        "telegram-platform/contracts": "^0.1",
+        "psr/container": "^2.0",
+        "psr/log": "^3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Platform\\Kernel\\": "src/"
+        }
+    },
+    "minimum-stability": "stable"
+}

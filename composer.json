@@ -1,0 +1,77 @@
+{
+    "name": "telegram-platform/platform",
+    "description": "Production-grade modular Telegram Bot Platform (modular monolith).",
+    "type": "project",
+    "license": "proprietary",
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "require": {
+        "php": "^8.3",
+        "ext-json": "*",
+        "ext-mbstring": "*",
+        "ext-tokenizer": "*",
+        "telegram-platform/contracts": "^0.1",
+        "telegram-platform/kernel": "^0.1",
+        "psr/clock": "^1.0",
+        "psr/container": "^2.0",
+        "psr/event-dispatcher": "^1.0",
+        "psr/log": "^3.0",
+        "psr/simple-cache": "^3.0"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.75",
+        "phpstan/phpstan": "^2.1",
+        "phpstan/phpstan-phpunit": "^2.0",
+        "phpstan/phpstan-strict-rules": "^2.0",
+        "phpunit/phpunit": "^11.5",
+        "deptrac/deptrac": "^3.0"
+    },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "contracts",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "kernel",
+            "options": {
+                "symlink": true
+            }
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Platform\\Apps\\": "apps/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Platform\\Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "phpstan/extension-installer": true
+        }
+    },
+    "scripts": {
+        "test": "phpunit --colors=always",
+        "phpstan": "phpstan analyse --memory-limit=1G -c phpstan.neon.dist",
+        "cs-check": "php-cs-fixer fix --dry-run --diff --ansi",
+        "cs-fix": "php-cs-fixer fix --ansi",
+        "deptrac": "deptrac analyse --config-file=deptrac.yaml",
+        "qa": [
+            "@cs-check",
+            "@phpstan",
+            "@deptrac",
+            "@test"
+        ]
+    },
+    "scripts-descriptions": {
+        "qa": "Run coding standards, static analysis, architecture rules, and tests"
+    }
+}

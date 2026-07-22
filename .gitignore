@@ -1,0 +1,39 @@
+# Dependencies
+/vendor/
+/composer.phar
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Runtime
+/var/cache/*
+/var/log/*
+/var/tmp/*
+!/var/cache/.gitkeep
+!/var/log/.gitkeep
+!/var/tmp/.gitkeep
+
+# IDE / OS
+/.idea/
+/.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Tooling caches
+/.php-cs-fixer.cache
+/.phpunit.cache/
+/.phpunit.result.cache
+/phpstan.neon
+!/phpstan.neon.dist
+/.deptrac.cache
+
+# Coverage
+/coverage/
+/clover.xml
+
+# Docker volumes (if bind-mounted locally)
+/docker/data/
