@@ -3,9 +3,11 @@
 
 declare(strict_types=1);
 
+use Platform\Kernel\Bootstrap\Kernel;
 use Platform\Kernel\Platform;
 
-$autoload = dirname(__DIR__, 3) . '/vendor/autoload.php';
+$root = dirname(__DIR__, 3);
+$autoload = $root . '/vendor/autoload.php';
 
 if (!is_file($autoload)) {
     fwrite(STDERR, "Autoloader not found. Run composer install from the project root.\n");
@@ -14,13 +16,29 @@ if (!is_file($autoload)) {
 
 require $autoload;
 
+$configFile = $root . '/config/platform.php';
+/** @var array{name?: string, env?: string, debug?: bool, timezone?: string, modules?: list<class-string>} $config */
+$config = is_file($configFile) ? require $configFile : [];
+
+$kernel = Kernel::boot([
+    'env' => $config['env'] ?? 'local',
+    'debug' => $config['debug'] ?? true,
+    'timezone' => $config['timezone'] ?? 'UTC',
+    'modules' => $config['modules'] ?? [],
+]);
+
 $identity = Platform::identity();
+$health = $kernel->health()->overall()->value;
+$enabled = count($kernel->modules()->enabled());
 
 fwrite(STDOUT, sprintf(
-    "%s %s (PHP %s)\n",
+    "%s %s (PHP %s) env=%s health=%s modules_enabled=%d\n",
     $identity['name'],
     $identity['version'],
     $identity['php'],
+    $kernel->config()->env,
+    $health,
+    $enabled,
 ));
 
 exit(0);

@@ -53,6 +53,21 @@ Pure `telegram-platform/contracts` package — interfaces, enums, readonly DTOs 
 
 Exit: purity architecture tests + value-object unit tests + `composer qa` green.
 
+## Phase 3 deliverables
+
+`telegram-platform/kernel` becomes a bootable runtime:
+
+- `Kernel::boot()` — timezone, DI (PHP-DI), module discover → register → boot
+- `ModuleLoader`, `DependencyResolver`, `ManifestValidator`, `ModuleRegistry`
+- `ServiceRegistrarInterface` + `DiServiceRegistrar` (contract improvement: PSR-11 cannot bind)
+- `ModuleBoundary` failure isolation
+- In-memory `EventBus`, `EventOutbox`, `JobBus`, `Scheduler`
+- `SimpleCommandBus`, `SimpleQueryBus`
+- System clock, id generator, stderr/null logger, audit logger, health monitor
+- Console entry boots the kernel and prints health + enabled module count
+
+Exit: Kernel boots fixture modules; event isolation tests; `composer qa` green.
+
 ## Dependency direction (never reverse)
 
 ```

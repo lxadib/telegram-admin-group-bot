@@ -5,14 +5,12 @@ declare(strict_types=1);
 namespace Platform\Contracts\Event;
 
 /**
- * Typed listener for a single event class.
- *
- * @template T of object
+ * Listener for a single event class. Isolation is enforced by the Kernel event bus.
  */
 interface EventListenerInterface
 {
     /**
-     * @return class-string<T>
+     * @return class-string
      */
     public function eventClass(): string;
 
@@ -21,8 +19,5 @@ interface EventListenerInterface
      */
     public function moduleId(): string;
 
-    /**
-     * @param T $event
-     */
     public function handle(object $event): void;
 }

@@ -59,4 +59,4 @@ tests/          Unit, Integration, Architecture
 
 ## Status
 
-Phase 2 (contracts) complete. Next: Kernel (module loader, DI, lifecycle, dispatchers).
+Phase 3 (kernel) complete. Next: Infrastructure adapters (Postgres, Redis, durable config/logging).

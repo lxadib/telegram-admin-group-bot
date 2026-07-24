@@ -11,7 +11,7 @@ declare(strict_types=1);
  *     env: string,
  *     debug: bool,
  *     timezone: string,
- *     modules: list<string>
+ *     modules: list<class-string<\Platform\Contracts\Module\ModuleInterface>>
  * }
  */
 $env = getenv('APP_ENV');
@@ -24,6 +24,6 @@ return [
     'debug' => filter_var(is_string($debug) ? $debug : 'true', FILTER_VALIDATE_BOOL),
     'timezone' => is_string($timezone) && $timezone !== '' ? $timezone : 'UTC',
     'modules' => [
-        // Enabled module ids are registered here starting Phase 3+.
+        // Enabled module class-strings are registered here (Phase 5+).
     ],
 ];

@@ -12,7 +12,13 @@ use Psr\Container\ContainerInterface;
  */
 interface ModuleProviderInterface
 {
-    public function register(ContainerInterface $container): void;
+    /**
+     * Contribute service bindings. Must not resolve other modules' services yet.
+     */
+    public function register(ServiceRegistrarInterface $registrar): void;
 
+    /**
+     * Wire listeners/menus/jobs after all modules have registered.
+     */
     public function boot(ContainerInterface $container): void;
 }
