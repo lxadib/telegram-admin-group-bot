@@ -29,5 +29,6 @@ return [
         \Platform\Modules\Permissions\PermissionsModule::class,
         \Platform\Modules\Groups\GroupsModule::class,
         \Platform\Modules\Ui\UiModule::class,
+        \Platform\Modules\Telegram\TelegramModule::class,
     ],
 ];

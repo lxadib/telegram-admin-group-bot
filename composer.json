@@ -23,6 +23,7 @@
         "telegram-platform/module-groups": "^0.1",
         "telegram-platform/module-licenses": "^0.1",
         "telegram-platform/module-permissions": "^0.1",
+        "telegram-platform/module-telegram": "^0.1",
         "telegram-platform/module-ui": "^0.1",
         "telegram-platform/module-users": "^0.1"
     },

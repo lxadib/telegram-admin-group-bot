@@ -1,0 +1,22 @@
+{
+  "update_id": 1002,
+  "callback_query": {
+    "id": "cb-99",
+    "from": {
+      "id": 4242,
+      "is_bot": false,
+      "first_name": "Ada",
+      "language_code": "en"
+    },
+    "message": {
+      "message_id": 11,
+      "chat": {
+        "id": 4242,
+        "type": "private"
+      },
+      "date": 1700000001,
+      "text": "Welcome"
+    },
+    "data": "{\"r\":\"ui.home\",\"s\":\"tg:4242\"}"
+  }
+}

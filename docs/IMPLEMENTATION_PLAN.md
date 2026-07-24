@@ -113,6 +113,20 @@ Five Composer modules under `modules/*` (contracts-only dependencies):
 
 Exit: `composer qa` green; console reports `modules_enabled=5`. See ADR-012.
 
+## Phase 6 deliverables
+
+Telegram as a thin transport module + HTTP adapter:
+
+| Piece | Role |
+|-------|------|
+| Contracts `Telegram\*` | `UpdateIngressInterface`, `BotGatewayInterface`, `IncomingUpdate` |
+| `modules/telegram` | Normalize → idempotent ingress → route `/start` & callbacks → render ViewModels |
+| `adapters/Telegram` | `HttpBotGateway`, `RecordingBotGateway` |
+| `apps/bot/bin/bot` | `poll` (getUpdates) / `handle` (fixture JSON) |
+| Kernel | `NullBotGateway` default |
+
+Exit: fixture JSON → gateway calls; no domain rules in transport; `composer qa` green. See ADR-013.
+
 ## Dependency direction (never reverse)
 
 ```

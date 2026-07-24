@@ -28,6 +28,7 @@ use Platform\Contracts\Security\RateLimiterInterface;
 use Platform\Contracts\Security\SecretVaultInterface;
 use Platform\Contracts\Security\TokenIssuerInterface;
 use Platform\Contracts\Storage\UnitOfWorkInterface;
+use Platform\Contracts\Telegram\BotGatewayInterface;
 use Platform\Kernel\Auth\AllowAllAuthorizer;
 use Platform\Kernel\Boundary\ModuleBoundary;
 use Platform\Kernel\Capability\AllowAllCapabilityGate;
@@ -56,6 +57,7 @@ use Platform\Kernel\Security\InMemoryIdempotencyStore;
 use Platform\Kernel\Security\InMemoryRateLimiter;
 use Platform\Kernel\Security\NativeHasher;
 use Platform\Kernel\Storage\NullUnitOfWork;
+use Platform\Kernel\Telegram\NullBotGateway;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -145,6 +147,7 @@ final class ContainerFactory
             },
             AuthorizerInterface::class => static fn (): AuthorizerInterface => new AllowAllAuthorizer(),
             CapabilityGateInterface::class => static fn (): CapabilityGateInterface => new AllowAllCapabilityGate(),
+            BotGatewayInterface::class => static fn (): BotGatewayInterface => new NullBotGateway(),
             HealthMonitor::class => static function (): HealthMonitor {
                 $monitor = new HealthMonitor();
                 $monitor->add(new PlatformHealthCheck());

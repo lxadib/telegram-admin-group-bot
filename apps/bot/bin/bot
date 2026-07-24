@@ -1,0 +1,123 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+/**
+ * Telegram bot process entry.
+ *
+ * Modes:
+ *   php apps/bot/bin/bot poll                 Long-poll getUpdates (requires TELEGRAM_BOT_TOKEN)
+ *   php apps/bot/bin/bot handle <file.json>   Process one update fixture/file
+ */
+
+use DI\Container;
+use Platform\Adapters\Telegram\HttpBotGateway;
+use Platform\Contracts\Telegram\BotGatewayInterface;
+use Platform\Contracts\Telegram\UpdateIngressInterface;
+use Platform\Kernel\Bootstrap\Kernel;
+use Psr\Log\LoggerInterface;
+
+$root = dirname(__DIR__, 3);
+$autoload = $root . '/vendor/autoload.php';
+
+if (!is_file($autoload)) {
+    fwrite(STDERR, "Autoloader not found. Run composer install from the project root.\n");
+    exit(1);
+}
+
+require $autoload;
+
+$configFile = $root . '/config/platform.php';
+/** @var array{env?: string, debug?: bool, timezone?: string, modules?: list<class-string>} $config */
+$config = is_file($configFile) ? require $configFile : [];
+
+$kernel = Kernel::boot([
+    'env' => $config['env'] ?? 'local',
+    'debug' => $config['debug'] ?? true,
+    'timezone' => $config['timezone'] ?? 'UTC',
+    'modules' => $config['modules'] ?? [],
+]);
+
+/** @var Container $container */
+$container = $kernel->container();
+
+$mode = $argv[1] ?? 'poll';
+
+if ($mode === 'handle') {
+    $path = $argv[2] ?? '';
+    if ($path === '' || !is_file($path)) {
+        fwrite(STDERR, "Usage: bot handle <update.json> [webhook-secret]\n");
+        exit(1);
+    }
+
+    $raw = file_get_contents($path);
+    if ($raw === false) {
+        fwrite(STDERR, "Unable to read {$path}\n");
+        exit(1);
+    }
+
+    /** @var array<string, mixed> $update */
+    $update = json_decode($raw, true, 512, JSON_THROW_ON_ERROR);
+    $secret = $argv[3] ?? null;
+
+    /** @var UpdateIngressInterface $ingress */
+    $ingress = $container->get(UpdateIngressInterface::class);
+    $result = $ingress->handle($update, is_string($secret) ? $secret : null);
+
+    fwrite(STDOUT, sprintf(
+        "status=%s reason=%s update_id=%s\n",
+        $result->status->value,
+        $result->reason ?? '-',
+        $result->update?->updateId ?? '-',
+    ));
+
+    exit($result->status->value === 'unauthorized' ? 2 : 0);
+}
+
+if ($mode !== 'poll') {
+    fwrite(STDERR, "Unknown mode \"{$mode}\". Use: poll | handle\n");
+    exit(1);
+}
+
+$token = getenv('TELEGRAM_BOT_TOKEN');
+if (!is_string($token) || $token === '') {
+    fwrite(STDERR, "TELEGRAM_BOT_TOKEN is required for poll mode.\n");
+    exit(1);
+}
+
+$gateway = new HttpBotGateway($token, $container->get(LoggerInterface::class));
+$container->set(BotGatewayInterface::class, $gateway);
+
+/** @var UpdateIngressInterface $ingress */
+$ingress = $container->get(UpdateIngressInterface::class);
+
+fwrite(STDOUT, "Polling Telegram getUpdates… (Ctrl+C to stop)\n");
+
+$offset = 0;
+while (true) {
+    try {
+        $updates = $gateway->getUpdates($offset, 25);
+    } catch (\Throwable $e) {
+        fwrite(STDERR, 'getUpdates failed: ' . $e->getMessage() . "\n");
+        sleep(3);
+
+        continue;
+    }
+
+    foreach ($updates as $update) {
+        $updateId = isset($update['update_id']) && is_numeric($update['update_id'])
+            ? (int) $update['update_id']
+            : 0;
+        $result = $ingress->handle($update);
+        fwrite(STDOUT, sprintf(
+            "[%s] update=%d status=%s\n",
+            date('c'),
+            $updateId,
+            $result->status->value,
+        ));
+        if ($updateId >= $offset) {
+            $offset = $updateId + 1;
+        }
+    }
+}

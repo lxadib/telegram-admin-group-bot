@@ -60,6 +60,7 @@ tests/          Unit, Integration, Architecture
 
 ## Status
 
-Phase 5 (core modules) complete: Users, Groups, Permissions, Licenses, and UI/Nav
-boot from `config/platform.php`, communicate via contracts + events, and pass
-boundary tests. Next: Phase 6 Telegram adapter.
+Phase 6 (Telegram adapter) complete: update ingress, `/start` + callback routing,
+ViewModel rendering via `BotGateway`. Fixture tests drive JSON updates without a
+network; `apps/bot/bin/bot poll` long-polls when `TELEGRAM_BOT_TOKEN` is set.
+Next: Phase 7 product MVP.

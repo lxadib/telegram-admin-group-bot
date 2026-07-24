@@ -14,3 +14,4 @@ classes.
 | `permissions` | `Platform\Modules\Permissions` | `AuthorizerInterface`, `PermissionCatalogInterface` |
 | `licenses` | `Platform\Modules\Licenses` | `LicenseServiceInterface`, `CapabilityGateInterface` |
 | `ui` | `Platform\Modules\Ui` | `NavStackFactoryInterface`, `MenuRegistryInterface`, `ConfirmGateInterface` |
+| `telegram` | `Platform\Modules\Telegram` | `UpdateIngressInterface` (transport only) |

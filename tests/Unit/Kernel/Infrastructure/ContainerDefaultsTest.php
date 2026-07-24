@@ -17,6 +17,7 @@ use Platform\Contracts\Security\RateLimiterInterface;
 use Platform\Contracts\Security\SecretVaultInterface;
 use Platform\Contracts\Security\TokenIssuerInterface;
 use Platform\Contracts\Storage\UnitOfWorkInterface;
+use Platform\Contracts\Telegram\BotGatewayInterface;
 use Platform\Kernel\Bootstrap\Kernel;
 
 final class ContainerDefaultsTest extends TestCase
@@ -38,6 +39,7 @@ final class ContainerDefaultsTest extends TestCase
             [TokenIssuerInterface::class],
             [AuthorizerInterface::class],
             [CapabilityGateInterface::class],
+            [BotGatewayInterface::class],
         ];
     }
 

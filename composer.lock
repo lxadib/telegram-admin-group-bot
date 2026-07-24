@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0dd416019bec1e951c5e3473c955adb2",
+    "content-hash": "de3df17a041791fe1d5bcf9da33f67f9",
     "packages": [
         {
             "name": "laravel/serializable-closure",
@@ -766,6 +766,33 @@
                 "proprietary"
             ],
             "description": "Permissions module: RBAC authorizer and permission catalog.",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "telegram-platform/module-telegram",
+            "version": "0.1.0",
+            "dist": {
+                "type": "path",
+                "url": "modules/telegram",
+                "reference": "5f6db2b56a58ca3c14ae6ae801e3996d9ca99a1d"
+            },
+            "require": {
+                "php": "^8.3",
+                "telegram-platform/contracts": "^0.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Platform\\Modules\\Telegram\\": "src/"
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "description": "Telegram transport module: update ingress, routing, UI rendering.",
             "transport-options": {
                 "symlink": true,
                 "relative": true
