@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2c97fb4722087874d0704d28639e5b3d",
+    "content-hash": "0dd416019bec1e951c5e3473c955adb2",
     "packages": [
         {
             "name": "laravel/serializable-closure",
@@ -685,6 +685,141 @@
                 "proprietary"
             ],
             "description": "Platform kernel: bootstrap, module loader, DI integration, lifecycle.",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "telegram-platform/module-groups",
+            "version": "0.1.0",
+            "dist": {
+                "type": "path",
+                "url": "modules/groups",
+                "reference": "ff4071e792446cf1d8c68502b86450a5ee552f27"
+            },
+            "require": {
+                "php": "^8.3",
+                "telegram-platform/contracts": "^0.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Platform\\Modules\\Groups\\": "src/"
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "description": "Groups module: bind Telegram chats and membership.",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "telegram-platform/module-licenses",
+            "version": "0.1.0",
+            "dist": {
+                "type": "path",
+                "url": "modules/licenses",
+                "reference": "b3bb32d45444c63fc955a2a29d054e4af3b52e7b"
+            },
+            "require": {
+                "php": "^8.3",
+                "telegram-platform/contracts": "^0.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Platform\\Modules\\Licenses\\": "src/"
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "description": "Licenses module: activation, capability gate, snapshots.",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "telegram-platform/module-permissions",
+            "version": "0.1.0",
+            "dist": {
+                "type": "path",
+                "url": "modules/permissions",
+                "reference": "4de556a8977af8543699e2a5b06d035c2eac6f07"
+            },
+            "require": {
+                "php": "^8.3",
+                "telegram-platform/contracts": "^0.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Platform\\Modules\\Permissions\\": "src/"
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "description": "Permissions module: RBAC authorizer and permission catalog.",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "telegram-platform/module-ui",
+            "version": "0.1.0",
+            "dist": {
+                "type": "path",
+                "url": "modules/ui",
+                "reference": "a56d4799f8e04cfe19d86078058510692ee43f25"
+            },
+            "require": {
+                "php": "^8.3",
+                "telegram-platform/contracts": "^0.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Platform\\Modules\\Ui\\": "src/"
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "description": "UI/Navigation module: NavStack, menus, confirm gate, paginator.",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "telegram-platform/module-users",
+            "version": "0.1.0",
+            "dist": {
+                "type": "path",
+                "url": "modules/users",
+                "reference": "c822ec7b8f0506a49172974988b49ba65bd90d65"
+            },
+            "require": {
+                "php": "^8.3",
+                "telegram-platform/contracts": "^0.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Platform\\Modules\\Users\\": "src/"
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "description": "Users module: directory and Telegram identity linking.",
             "transport-options": {
                 "symlink": true,
                 "relative": true

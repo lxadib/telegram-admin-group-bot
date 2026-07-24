@@ -6,6 +6,8 @@ namespace Platform\Tests\Unit\Kernel\Infrastructure;
 
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
+use Platform\Contracts\Auth\AuthorizerInterface;
+use Platform\Contracts\Capability\CapabilityGateInterface;
 use Platform\Contracts\Config\ConfigRepositoryInterface;
 use Platform\Contracts\Localization\LocaleResolverInterface;
 use Platform\Contracts\Localization\TranslatorInterface;
@@ -34,6 +36,8 @@ final class ContainerDefaultsTest extends TestCase
             [RateLimiterInterface::class],
             [IdempotencyStoreInterface::class],
             [TokenIssuerInterface::class],
+            [AuthorizerInterface::class],
+            [CapabilityGateInterface::class],
         ];
     }
 

@@ -4,11 +4,13 @@ parameters:
         - contracts/src
         - kernel/src
         - adapters/src
+        - modules
         - apps
         - config
         - tests
     excludePaths:
         - apps/*/vendor
+        - modules/*/vendor
     tmpDir: /tmp/phpstan
 
 includes:

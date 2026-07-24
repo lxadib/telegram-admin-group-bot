@@ -3,6 +3,7 @@ deptrac:
     - ./contracts/src
     - ./kernel/src
     - ./adapters/src
+    - ./modules
     - ./apps
   exclude_files:
     - '#.*test.*#'
@@ -19,6 +20,10 @@ deptrac:
       collectors:
         - type: classLike
           value: Platform\\Adapters\\.*
+    - name: Modules
+      collectors:
+        - type: classLike
+          value: Platform\\Modules\\.*
     - name: Apps
       collectors:
         - type: classLike
@@ -29,7 +34,10 @@ deptrac:
       - Contracts
     Adapters:
       - Contracts
+    Modules:
+      - Contracts
     Apps:
       - Kernel
       - Contracts
       - Adapters
+      - Modules

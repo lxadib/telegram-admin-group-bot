@@ -19,7 +19,12 @@
         "predis/predis": "^2.2",
         "telegram-platform/adapters": "^0.1",
         "telegram-platform/contracts": "^0.1",
-        "telegram-platform/kernel": "^0.1"
+        "telegram-platform/kernel": "^0.1",
+        "telegram-platform/module-groups": "^0.1",
+        "telegram-platform/module-licenses": "^0.1",
+        "telegram-platform/module-permissions": "^0.1",
+        "telegram-platform/module-ui": "^0.1",
+        "telegram-platform/module-users": "^0.1"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^3.75",
@@ -47,6 +52,13 @@
         {
             "type": "path",
             "url": "adapters",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "modules/*",
             "options": {
                 "symlink": true
             }

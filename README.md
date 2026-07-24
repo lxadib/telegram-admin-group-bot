@@ -60,8 +60,6 @@ tests/          Unit, Integration, Architecture
 
 ## Status
 
-Phase 4 (infrastructure) complete: Kernel in-memory reference services plus
-durable PostgreSQL (config, audit, migrations, unit-of-work) and Redis
-(PSR-16 cache, rate limiter, idempotency, job queue) adapters. The platform
-boots and passes QA with **no external services**; integration tests exercise
-real Docker Postgres + Redis. Next: Phase 5 core modules.
+Phase 5 (core modules) complete: Users, Groups, Permissions, Licenses, and UI/Nav
+boot from `config/platform.php`, communicate via contracts + events, and pass
+boundary tests. Next: Phase 6 Telegram adapter.

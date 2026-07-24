@@ -6,6 +6,8 @@ namespace Platform\Kernel\Container;
 
 use DI\Container;
 use DI\ContainerBuilder;
+use Platform\Contracts\Auth\AuthorizerInterface;
+use Platform\Contracts\Capability\CapabilityGateInterface;
 use Platform\Contracts\Clock\ClockInterface;
 use Platform\Contracts\Config\ConfigRepositoryInterface;
 use Platform\Contracts\Event\EventBusInterface;
@@ -26,7 +28,9 @@ use Platform\Contracts\Security\RateLimiterInterface;
 use Platform\Contracts\Security\SecretVaultInterface;
 use Platform\Contracts\Security\TokenIssuerInterface;
 use Platform\Contracts\Storage\UnitOfWorkInterface;
+use Platform\Kernel\Auth\AllowAllAuthorizer;
 use Platform\Kernel\Boundary\ModuleBoundary;
+use Platform\Kernel\Capability\AllowAllCapabilityGate;
 use Platform\Kernel\Clock\SystemClock;
 use Platform\Kernel\Config\ArrayConfigRepository;
 use Platform\Kernel\Event\InMemoryEventBus;
@@ -139,6 +143,8 @@ final class ContainerFactory
 
                 return new HmacTokenIssuer($secret, $c->get(ClockInterface::class));
             },
+            AuthorizerInterface::class => static fn (): AuthorizerInterface => new AllowAllAuthorizer(),
+            CapabilityGateInterface::class => static fn (): CapabilityGateInterface => new AllowAllCapabilityGate(),
             HealthMonitor::class => static function (): HealthMonitor {
                 $monitor = new HealthMonitor();
                 $monitor->add(new PlatformHealthCheck());

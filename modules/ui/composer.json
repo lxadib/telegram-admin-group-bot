@@ -1,0 +1,17 @@
+{
+    "name": "telegram-platform/module-ui",
+    "description": "UI/Navigation module: NavStack, menus, confirm gate, paginator.",
+    "type": "library",
+    "license": "proprietary",
+    "version": "0.1.0",
+    "require": {
+        "php": "^8.3",
+        "telegram-platform/contracts": "^0.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Platform\\Modules\\Ui\\": "src/"
+        }
+    },
+    "minimum-stability": "stable"
+}

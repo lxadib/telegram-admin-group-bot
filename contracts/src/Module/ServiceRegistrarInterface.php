@@ -19,9 +19,10 @@ interface ServiceRegistrarInterface
 
     /**
      * Bind an identifier to a factory callable resolved at get()-time.
+     * Implementations (e.g. PHP-DI) may inject a container as the first argument.
      *
      * @param class-string|string $id
-     * @param callable(): mixed $factory
+     * @param callable $factory
      */
     public function factory(string $id, callable $factory): void;
 

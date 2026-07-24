@@ -14,7 +14,7 @@ Modules and adapters must share types without depending on each other's internal
 
 - interfaces
 - enums
-- `final readonly` DTOs / value objects
+- `final readonly` DTOs / value objects / domain events
 - domain exceptions
 
 No IO, no Telegram, no database drivers, no concrete services.

@@ -24,6 +24,10 @@ return [
     'debug' => filter_var(is_string($debug) ? $debug : 'true', FILTER_VALIDATE_BOOL),
     'timezone' => is_string($timezone) && $timezone !== '' ? $timezone : 'UTC',
     'modules' => [
-        // Enabled module class-strings are registered here (Phase 5+).
+        \Platform\Modules\Users\UsersModule::class,
+        \Platform\Modules\Licenses\LicensesModule::class,
+        \Platform\Modules\Permissions\PermissionsModule::class,
+        \Platform\Modules\Groups\GroupsModule::class,
+        \Platform\Modules\Ui\UiModule::class,
     ],
 ];

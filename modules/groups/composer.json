@@ -1,0 +1,17 @@
+{
+    "name": "telegram-platform/module-groups",
+    "description": "Groups module: bind Telegram chats and membership.",
+    "type": "library",
+    "license": "proprietary",
+    "version": "0.1.0",
+    "require": {
+        "php": "^8.3",
+        "telegram-platform/contracts": "^0.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Platform\\Modules\\Groups\\": "src/"
+        }
+    },
+    "minimum-stability": "stable"
+}

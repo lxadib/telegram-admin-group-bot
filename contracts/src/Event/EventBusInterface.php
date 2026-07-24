@@ -16,4 +16,9 @@ interface EventBusInterface
      * @param iterable<object> $events
      */
     public function dispatchAll(iterable $events): void;
+
+    /**
+     * Register a listener. Implementations must isolate failures per ModuleBoundary.
+     */
+    public function subscribe(EventListenerInterface $listener): void;
 }

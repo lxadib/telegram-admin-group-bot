@@ -95,6 +95,24 @@ the `telegram-platform/adapters` package provides real drivers.
 Exit: `composer qa` green offline; `make docker-integration` green against
 Docker Postgres + Redis. See ADR-011.
 
+## Phase 5 deliverables
+
+Five Composer modules under `modules/*` (contracts-only dependencies):
+
+| Module | Ports bound | Events |
+|--------|-------------|--------|
+| `users` | `UserDirectoryInterface`, `IdentityLinkerInterface` | emits `UserLinked` |
+| `groups` | `GroupRegistryInterface`, `MembershipQueryInterface` | emits `GroupBound`; listens `LicenseActivated` |
+| `permissions` | `AuthorizerInterface`, `PermissionCatalogInterface` | listens `UserLinked` |
+| `licenses` | `LicenseServiceInterface`, `CapabilityGateInterface` | emits `LicenseActivated` |
+| `ui` | `NavStackFactoryInterface`, `MenuRegistryInterface`, `ConfirmGateInterface` | — |
+
+- Kernel defaults: allow-all Authorizer + CapabilityGate (overridden when modules load).
+- `EventBusInterface::subscribe()` added for module boot wiring.
+- Deptrac `Modules → Contracts` only; boundary test boots all five.
+
+Exit: `composer qa` green; console reports `modules_enabled=5`. See ADR-012.
+
 ## Dependency direction (never reverse)
 
 ```
