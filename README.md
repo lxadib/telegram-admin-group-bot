@@ -59,4 +59,4 @@ tests/          Unit, Integration, Architecture
 
 ## Status
 
-Phase 1 (bootstrap) complete. Contracts and Kernel implementations follow the approved roadmap.
+Phase 2 (contracts) complete. Next: Kernel (module loader, DI, lifecycle, dispatchers).

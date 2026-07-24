@@ -24,5 +24,6 @@ final class PlatformIdentityTest extends TestCase
     {
         self::assertTrue(class_exists(Package::class));
         self::assertStringContainsString('contracts', Package::NAME);
+        self::assertMatchesRegularExpression('/^\d+\.\d+\.\d+$/', Package::VERSION);
     }
 }

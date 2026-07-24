@@ -22,7 +22,7 @@ Source of truth: approved architecture in `platform-architecture.canvas.tsx` (AD
 | **6 · Telegram adapter** | Update ingress, BotGateway, UI render | Fixtures → commands; no business rules |
 | **7 · Product MVP** | Bind groups, license flows, admin menus, basic moderation/automation | End-to-end Telegram smoke |
 
-## Phase 1 deliverables (this milestone)
+## Phase 1 deliverables
 
 - Root Composer project (`php ^8.3`) with path repos for `contracts` + `kernel`
 - Directory layout matching architecture
@@ -31,6 +31,27 @@ Source of truth: approved architecture in `platform-architecture.canvas.tsx` (AD
 - GitHub Actions CI
 - Minimal `Platform\Kernel\Platform` identity + `apps/console/bin/platform`
 - Smoke unit test + ADR stubs
+
+## Phase 2 deliverables (this milestone)
+
+Pure `telegram-platform/contracts` package — interfaces, enums, readonly DTOs only:
+
+| Area | Contracts |
+|------|-----------|
+| Module | `ModuleId`, `ModuleManifest`, `ModuleInterface`, `ModuleRegistryInterface`, `ModuleProviderInterface`, `ModuleState` |
+| Event | `EventInterface`, `DomainEventInterface`, `EventBusInterface`, `EventListenerInterface`, `EventOutboxInterface` |
+| Queue | `JobInterface`, `JobBusInterface`, `JobHandlerInterface`, `SchedulerInterface`, `ScheduleDefinition` |
+| Messaging | `CommandBusInterface`, `QueryBusInterface`, handlers |
+| Storage | `UnitOfWorkInterface`, `MigrationRunnerInterface`, `RepositoryInterface` |
+| Security | `SecretVaultInterface`, `HasherInterface`, `TokenIssuerInterface`, `RateLimiterInterface`, `IdempotencyStoreInterface` |
+| Config | `ConfigRepositoryInterface` |
+| Logging | `AuditLoggerInterface` (+ PSR-3 for structured logs) |
+| Navigation | `NavStackInterface`, `PaginatorInterface`, `ConfirmGateInterface`, `MenuRegistryInterface`, `MenuNode`, `ViewModel` |
+| Auth | `ActorContext`, `ActorRole`, `AuthorizerInterface` |
+| Capability | `CapabilitySnapshot`, `CapabilityGateInterface` |
+| Misc | `ClockInterface`, `IdGeneratorInterface`, Health, Localization |
+
+Exit: purity architecture tests + value-object unit tests + `composer qa` green.
 
 ## Dependency direction (never reverse)
 

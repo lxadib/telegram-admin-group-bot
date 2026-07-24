@@ -3,8 +3,8 @@
 declare(strict_types=1);
 
 /**
- * Phase 1 marker: Contracts package is intentionally empty until Phase 2.
- * This file keeps the PSR-4 root valid for Composer/PHPStan.
+ * Shared public contracts for the Telegram Bot Platform.
+ * This package must contain interfaces, enums, and immutable DTOs only — no IO.
  */
 
 namespace Platform\Contracts;
@@ -12,4 +12,6 @@ namespace Platform\Contracts;
 final class Package
 {
     public const string NAME = 'telegram-platform/contracts';
+
+    public const string VERSION = '0.1.0';
 }
