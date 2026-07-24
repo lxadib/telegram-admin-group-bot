@@ -9,6 +9,8 @@ services:
     environment:
       APP_ENV: local
       APP_DEBUG: "true"
+      DATABASE_URL: "pgsql://platform:platform@postgres:5432/platform"
+      REDIS_URL: "tcp://redis:6379"
     depends_on:
       postgres:
         condition: service_healthy

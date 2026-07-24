@@ -68,6 +68,33 @@ Exit: purity architecture tests + value-object unit tests + `composer qa` green.
 
 Exit: Kernel boots fixture modules; event isolation tests; `composer qa` green.
 
+## Phase 4 deliverables
+
+Durable infrastructure over the Phase 2 ports. Kernel gains in-memory reference
+implementations (default bindings) so the platform runs with **no services**;
+the `telegram-platform/adapters` package provides real drivers.
+
+| Port | Kernel default | Adapter (durable) |
+|------|----------------|-------------------|
+| `ConfigRepositoryInterface` | `ArrayConfigRepository` | `PdoConfigRepository` (JSONB) |
+| `UnitOfWorkInterface` | `NullUnitOfWork` | `PdoUnitOfWork` |
+| `MigrationRunnerInterface` | — | `SqlMigrationRunner` (`platform_migrations` ledger) |
+| `AuditLoggerInterface` | `PsrAuditLogger` | `PdoAuditLogger` (append-only) |
+| `TranslatorInterface` / `LocaleResolverInterface` | `ArrayTranslator` / `StaticLocaleResolver` | — |
+| `HasherInterface` | `NativeHasher` | — |
+| `TokenIssuerInterface` | `HmacTokenIssuer` | — |
+| `SecretVaultInterface` | `EnvSecretVault` | — |
+| `RateLimiterInterface` | `InMemoryRateLimiter` | `RedisRateLimiter` (atomic Lua) |
+| `IdempotencyStoreInterface` | `InMemoryIdempotencyStore` | `RedisIdempotencyStore` (`SET NX EX`) |
+| PSR-16 cache | — | `RedisCache` |
+| `JobBusInterface` | `InMemoryJobBus` | `RedisJobBus` + `RedisJobConsumer` |
+
+- Redis via `predis/predis` (pure PHP, no `ext-redis`); Postgres via PDO.
+- Integration tests skip when `DATABASE_URL` / `REDIS_URL` are unset/unreachable.
+
+Exit: `composer qa` green offline; `make docker-integration` green against
+Docker Postgres + Redis. See ADR-011.
+
 ## Dependency direction (never reverse)
 
 ```

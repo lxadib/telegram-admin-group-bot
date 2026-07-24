@@ -16,6 +16,8 @@
         "psr/event-dispatcher": "^1.0",
         "psr/log": "^3.0",
         "psr/simple-cache": "^3.0",
+        "predis/predis": "^2.2",
+        "telegram-platform/adapters": "^0.1",
         "telegram-platform/contracts": "^0.1",
         "telegram-platform/kernel": "^0.1"
     },
@@ -38,6 +40,13 @@
         {
             "type": "path",
             "url": "kernel",
+            "options": {
+                "symlink": true
+            }
+        },
+        {
+            "type": "path",
+            "url": "adapters",
             "options": {
                 "symlink": true
             }

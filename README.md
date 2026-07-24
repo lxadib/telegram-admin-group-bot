@@ -5,7 +5,7 @@ Telegram is a UI adapter; business logic lives in domain modules behind public c
 
 ## Requirements
 
-- PHP 8.3+ with extensions: `mbstring`, `json`, `dom`, `tokenizer` (Phase 4 also needs `pdo_pgsql`, `redis`)
+- PHP 8.3+ with extensions: `mbstring`, `json`, `dom`, `tokenizer` (Postgres adapters also need `pdo_pgsql`; Redis uses `predis/predis`, no extension required)
 - Composer 2
 - Docker (recommended) for Postgres, Redis, and a consistent PHP CLI image
 
@@ -26,11 +26,12 @@ php apps/console/bin/platform
 composer qa
 ```
 
-Or via Docker PHP image (includes `mbstring`, `pdo_pgsql`, `redis`):
+Or via Docker PHP image (includes `mbstring`, `pdo_pgsql`):
 
 ```bash
 make docker-build
-make docker-qa
+make docker-qa          # unit QA, no external services required
+make docker-integration # Postgres + Redis integration tests
 ```
 
 ## Layout
@@ -59,4 +60,8 @@ tests/          Unit, Integration, Architecture
 
 ## Status
 
-Phase 3 (kernel) complete. Next: Infrastructure adapters (Postgres, Redis, durable config/logging).
+Phase 4 (infrastructure) complete: Kernel in-memory reference services plus
+durable PostgreSQL (config, audit, migrations, unit-of-work) and Redis
+(PSR-16 cache, rate limiter, idempotency, job queue) adapters. The platform
+boots and passes QA with **no external services**; integration tests exercise
+real Docker Postgres + Redis. Next: Phase 5 core modules.

@@ -3,12 +3,13 @@ parameters:
     paths:
         - contracts/src
         - kernel/src
+        - adapters/src
         - apps
         - config
         - tests
     excludePaths:
         - apps/*/vendor
-    tmpDir: var/cache/phpstan
+    tmpDir: /tmp/phpstan
 
 includes:
     - vendor/phpstan/phpstan-phpunit/extension.neon

@@ -1,0 +1,25 @@
+{
+    "name": "telegram-platform/adapters",
+    "description": "Infrastructure adapters (PostgreSQL, Redis) implementing platform contracts.",
+    "type": "library",
+    "license": "proprietary",
+    "version": "0.1.0",
+    "require": {
+        "php": "^8.3",
+        "ext-json": "*",
+        "ext-pdo": "*",
+        "psr/log": "^3.0",
+        "psr/simple-cache": "^3.0",
+        "predis/predis": "^2.2",
+        "telegram-platform/contracts": "^0.1"
+    },
+    "suggest": {
+        "ext-pdo_pgsql": "Required by the PostgreSQL storage adapters"
+    },
+    "autoload": {
+        "psr-4": {
+            "Platform\\Adapters\\": "src/"
+        }
+    },
+    "minimum-stability": "stable"
+}

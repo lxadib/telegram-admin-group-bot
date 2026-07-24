@@ -7,23 +7,35 @@ namespace Platform\Kernel\Container;
 use DI\Container;
 use DI\ContainerBuilder;
 use Platform\Contracts\Clock\ClockInterface;
+use Platform\Contracts\Config\ConfigRepositoryInterface;
 use Platform\Contracts\Event\EventBusInterface;
 use Platform\Contracts\Event\EventOutboxInterface;
 use Platform\Contracts\Health\HealthMonitorInterface;
 use Platform\Contracts\Identity\IdGeneratorInterface;
+use Platform\Contracts\Localization\LocaleResolverInterface;
+use Platform\Contracts\Localization\TranslatorInterface;
 use Platform\Contracts\Logging\AuditLoggerInterface;
 use Platform\Contracts\Messaging\CommandBusInterface;
 use Platform\Contracts\Messaging\QueryBusInterface;
 use Platform\Contracts\Module\ModuleRegistryInterface;
 use Platform\Contracts\Queue\JobBusInterface;
 use Platform\Contracts\Queue\SchedulerInterface;
+use Platform\Contracts\Security\HasherInterface;
+use Platform\Contracts\Security\IdempotencyStoreInterface;
+use Platform\Contracts\Security\RateLimiterInterface;
+use Platform\Contracts\Security\SecretVaultInterface;
+use Platform\Contracts\Security\TokenIssuerInterface;
+use Platform\Contracts\Storage\UnitOfWorkInterface;
 use Platform\Kernel\Boundary\ModuleBoundary;
 use Platform\Kernel\Clock\SystemClock;
+use Platform\Kernel\Config\ArrayConfigRepository;
 use Platform\Kernel\Event\InMemoryEventBus;
 use Platform\Kernel\Event\InMemoryEventOutbox;
 use Platform\Kernel\Health\HealthMonitor;
 use Platform\Kernel\Health\PlatformHealthCheck;
 use Platform\Kernel\Identity\RandomIdGenerator;
+use Platform\Kernel\Localization\ArrayTranslator;
+use Platform\Kernel\Localization\StaticLocaleResolver;
 use Platform\Kernel\Logging\PsrAuditLogger;
 use Platform\Kernel\Logging\StderrLogger;
 use Platform\Kernel\Messaging\SimpleCommandBus;
@@ -34,6 +46,12 @@ use Platform\Kernel\Module\ModuleLoader;
 use Platform\Kernel\Module\ModuleRegistry;
 use Platform\Kernel\Queue\InMemoryJobBus;
 use Platform\Kernel\Queue\InMemoryScheduler;
+use Platform\Kernel\Security\EnvSecretVault;
+use Platform\Kernel\Security\HmacTokenIssuer;
+use Platform\Kernel\Security\InMemoryIdempotencyStore;
+use Platform\Kernel\Security\InMemoryRateLimiter;
+use Platform\Kernel\Security\NativeHasher;
+use Platform\Kernel\Storage\NullUnitOfWork;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -102,6 +120,24 @@ final class ContainerFactory
             },
             AuditLoggerInterface::class => static function (Container $c): AuditLoggerInterface {
                 return new PsrAuditLogger($c->get(LoggerInterface::class));
+            },
+            ConfigRepositoryInterface::class => static fn (): ConfigRepositoryInterface => new ArrayConfigRepository(),
+            UnitOfWorkInterface::class => static fn (): UnitOfWorkInterface => new NullUnitOfWork(),
+            TranslatorInterface::class => static fn (): TranslatorInterface => new ArrayTranslator(),
+            LocaleResolverInterface::class => static fn (): LocaleResolverInterface => new StaticLocaleResolver(),
+            HasherInterface::class => static fn (): HasherInterface => new NativeHasher(),
+            SecretVaultInterface::class => static fn (): SecretVaultInterface => new EnvSecretVault(),
+            RateLimiterInterface::class => static function (Container $c): RateLimiterInterface {
+                return new InMemoryRateLimiter($c->get(ClockInterface::class));
+            },
+            IdempotencyStoreInterface::class => static function (Container $c): IdempotencyStoreInterface {
+                return new InMemoryIdempotencyStore($c->get(ClockInterface::class));
+            },
+            TokenIssuerInterface::class => static function (Container $c): TokenIssuerInterface {
+                $key = getenv('APP_KEY');
+                $secret = is_string($key) && $key !== '' ? $key : 'insecure-dev-key-change-me';
+
+                return new HmacTokenIssuer($secret, $c->get(ClockInterface::class));
             },
             HealthMonitor::class => static function (): HealthMonitor {
                 $monitor = new HealthMonitor();
