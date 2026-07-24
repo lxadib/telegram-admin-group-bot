@@ -28,6 +28,7 @@ return [
         \Platform\Modules\Licenses\LicensesModule::class,
         \Platform\Modules\Permissions\PermissionsModule::class,
         \Platform\Modules\Groups\GroupsModule::class,
+        \Platform\Modules\Moderation\ModerationModule::class,
         \Platform\Modules\Ui\UiModule::class,
         \Platform\Modules\Telegram\TelegramModule::class,
     ],

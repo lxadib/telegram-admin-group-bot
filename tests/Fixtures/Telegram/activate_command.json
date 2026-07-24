@@ -1,0 +1,17 @@
+{
+    "update_id": 5010,
+    "message": {
+        "message_id": 11,
+        "from": {
+            "id": 4242,
+            "is_bot": false,
+            "first_name": "Ada",
+            "language_code": "en"
+        },
+        "chat": {
+            "id": 4242,
+            "type": "private"
+        },
+        "text": "/activate PRO"
+    }
+}

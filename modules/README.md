@@ -13,5 +13,6 @@ classes.
 | `groups` | `Platform\Modules\Groups` | `GroupRegistryInterface`, `MembershipQueryInterface` |
 | `permissions` | `Platform\Modules\Permissions` | `AuthorizerInterface`, `PermissionCatalogInterface` |
 | `licenses` | `Platform\Modules\Licenses` | `LicenseServiceInterface`, `CapabilityGateInterface` |
+| `moderation` | `Platform\Modules\Moderation` | `ModerationServiceInterface` (warn/mute/ban) |
 | `ui` | `Platform\Modules\Ui` | `NavStackFactoryInterface`, `MenuRegistryInterface`, `ConfirmGateInterface` |
-| `telegram` | `Platform\Modules\Telegram` | `UpdateIngressInterface` (transport only) |
+| `telegram` | `Platform\Modules\Telegram` | `UpdateIngressInterface` (transport only; `/start`, `/activate`, `/bind`, `/warn`, `/mute`, `/ban`) |

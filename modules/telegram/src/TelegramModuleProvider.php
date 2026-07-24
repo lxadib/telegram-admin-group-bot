@@ -4,8 +4,13 @@ declare(strict_types=1);
 
 namespace Platform\Modules\Telegram;
 
+use Platform\Contracts\Auth\AuthorizerInterface;
+use Platform\Contracts\Capability\LicenseServiceInterface;
+use Platform\Contracts\Groups\GroupRegistryInterface;
 use Platform\Contracts\Localization\LocaleResolverInterface;
 use Platform\Contracts\Localization\TranslatorInterface;
+use Platform\Contracts\Moderation\ModerationAction;
+use Platform\Contracts\Moderation\ModerationServiceInterface;
 use Platform\Contracts\Module\ModuleProviderInterface;
 use Platform\Contracts\Module\ServiceRegistrarInterface;
 use Platform\Contracts\Navigation\MenuRegistryInterface;
@@ -14,8 +19,13 @@ use Platform\Contracts\Security\IdempotencyStoreInterface;
 use Platform\Contracts\Telegram\BotGatewayInterface;
 use Platform\Contracts\Telegram\UpdateIngressInterface;
 use Platform\Contracts\Users\IdentityLinkerInterface;
+use Platform\Modules\Telegram\Command\ActivateLicenseCommand;
+use Platform\Modules\Telegram\Command\BindGroupCommand;
+use Platform\Modules\Telegram\Command\CommandRegistry;
+use Platform\Modules\Telegram\Command\ModerationCommand;
 use Platform\Modules\Telegram\Handler\CallbackRouteHandler;
 use Platform\Modules\Telegram\Handler\StartCommandHandler;
+use Platform\Modules\Telegram\Identity\ActorContextResolver;
 use Platform\Modules\Telegram\Ingress\UpdateIngress;
 use Platform\Modules\Telegram\Ingress\UpdateNormalizer;
 use Platform\Modules\Telegram\Rendering\UiRenderer;
@@ -46,10 +56,49 @@ final class TelegramModuleProvider implements ModuleProviderInterface
             );
         });
 
+        $registrar->factory(ActorContextResolver::class, static function (ContainerInterface $c): ActorContextResolver {
+            $superOwner = getenv('TELEGRAM_SUPER_OWNER_ID');
+
+            return new ActorContextResolver(
+                $c->get(IdentityLinkerInterface::class),
+                $c->get(GroupRegistryInterface::class),
+                is_string($superOwner) && $superOwner !== '' ? $superOwner : null,
+            );
+        });
+
+        $registrar->factory(BindGroupCommand::class, static function (ContainerInterface $c): BindGroupCommand {
+            return new BindGroupCommand(
+                $c->get(GroupRegistryInterface::class),
+                $c->get(AuthorizerInterface::class),
+            );
+        });
+
+        $registrar->factory(ActivateLicenseCommand::class, static function (ContainerInterface $c): ActivateLicenseCommand {
+            return new ActivateLicenseCommand(
+                $c->get(LicenseServiceInterface::class),
+                $c->get(AuthorizerInterface::class),
+            );
+        });
+
+        $registrar->factory(CommandRegistry::class, static function (ContainerInterface $c): CommandRegistry {
+            $moderation = $c->get(ModerationServiceInterface::class);
+            $authorizer = $c->get(AuthorizerInterface::class);
+
+            return new CommandRegistry([
+                $c->get(BindGroupCommand::class),
+                $c->get(ActivateLicenseCommand::class),
+                new ModerationCommand('/warn', ModerationAction::Warn, 'moderation.warn', $moderation, $authorizer),
+                new ModerationCommand('/mute', ModerationAction::Mute, 'moderation.mute', $moderation, $authorizer),
+                new ModerationCommand('/ban', ModerationAction::Ban, 'moderation.ban', $moderation, $authorizer),
+            ]);
+        });
+
         $registrar->factory(UpdateRouter::class, static function (ContainerInterface $c): UpdateRouter {
             return new UpdateRouter(
                 $c->get(StartCommandHandler::class),
                 $c->get(CallbackRouteHandler::class),
+                $c->get(ActorContextResolver::class),
+                $c->get(CommandRegistry::class),
             );
         });
 

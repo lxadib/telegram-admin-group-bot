@@ -127,6 +127,26 @@ Telegram as a thin transport module + HTTP adapter:
 
 Exit: fixture JSON → gateway calls; no domain rules in transport; `composer qa` green. See ADR-013.
 
+## Phase 7 deliverables
+
+Product MVP — admin flows + moderation over Telegram:
+
+| Piece | Role |
+|-------|------|
+| Contracts `Moderation\*` | `ModerationServiceInterface`, `ModerationAction`, `MemberModerated` |
+| `IncomingUpdate` | `arguments()` + `replyToUserId` for command parsing |
+| `modules/moderation` | `InMemoryModerationService` — feature-gated warn/mute/ban + events + audit |
+| `modules/telegram` Command layer | `CommandRegistry`, `ActorContextResolver`, `/bind`, `/activate`, `/warn`·`/mute`·`/ban` |
+| `permissions` defaults | Customer self-serve (activate/bind); GroupAdmin/Moderator get `moderation.*` |
+
+- Capability (license feature/group limit) checked in domain services; RBAC in
+  command handlers; `SuperOwner` via `TELEGRAM_SUPER_OWNER_ID` bypasses RBAC.
+- MVP tenancy: each Telegram user owns `tenant:{userId}`; group binding ties a chat
+  to the binder's tenant.
+
+Exit: `/activate → /bind → /mute` fixture flow mutates domain state and drives
+gateway sends; console reports `modules_enabled=7`; `composer qa` green. See ADR-014.
+
 ## Dependency direction (never reverse)
 
 ```

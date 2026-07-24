@@ -40,6 +40,12 @@ final class UpdateNormalizer
         $text = isset($message['text']) && is_string($message['text']) ? $message['text'] : null;
         $command = $this->extractCommand($text);
 
+        $replyFrom = [];
+        if (isset($message['reply_to_message']) && is_array($message['reply_to_message'])
+            && isset($message['reply_to_message']['from']) && is_array($message['reply_to_message']['from'])) {
+            $replyFrom = $message['reply_to_message']['from'];
+        }
+
         return new IncomingUpdate(
             updateId: $updateId,
             kind: UpdateKind::Message,
@@ -51,6 +57,7 @@ final class UpdateNormalizer
             languageCode: isset($from['language_code']) && is_string($from['language_code']) ? $from['language_code'] : null,
             displayName: $this->displayName($from),
             isPrivateChat: ($chat['type'] ?? null) === 'private',
+            replyToUserId: $this->stringId($replyFrom['id'] ?? null),
         );
     }
 

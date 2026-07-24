@@ -42,13 +42,24 @@ final class PermissionsModuleProvider implements ModuleProviderInterface
         $catalog->register('groups.view', 'View groups');
         $catalog->register('groups.bind', 'Bind Telegram groups');
         $catalog->register('groups.manage', 'Manage groups');
+        $catalog->register('licenses.view', 'View license status');
+        $catalog->register('licenses.activate', 'Activate a license');
+        $catalog->register('moderation.warn', 'Warn members');
         $catalog->register('moderation.mute', 'Mute members');
         $catalog->register('moderation.ban', 'Ban members');
 
+        // Customers own their tenant: they may manage licensing and bind their groups.
+        $catalog->grantDefault(ActorRole::Customer, 'licenses.view');
+        $catalog->grantDefault(ActorRole::Customer, 'licenses.activate');
+        $catalog->grantDefault(ActorRole::Customer, 'groups.view');
+        $catalog->grantDefault(ActorRole::Customer, 'groups.bind');
+
         $catalog->grantDefault(ActorRole::GroupAdmin, 'groups.view');
         $catalog->grantDefault(ActorRole::GroupAdmin, 'groups.manage');
+        $catalog->grantDefault(ActorRole::GroupAdmin, 'moderation.warn');
         $catalog->grantDefault(ActorRole::GroupAdmin, 'moderation.mute');
         $catalog->grantDefault(ActorRole::GroupAdmin, 'moderation.ban');
+        $catalog->grantDefault(ActorRole::Moderator, 'moderation.warn');
         $catalog->grantDefault(ActorRole::Moderator, 'moderation.mute');
         $catalog->grantDefault(ActorRole::Member, 'users.view');
 

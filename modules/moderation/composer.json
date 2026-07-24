@@ -1,0 +1,17 @@
+{
+    "name": "telegram-platform/module-moderation",
+    "description": "Moderation module: warn, mute, ban with capability gating and audit.",
+    "type": "library",
+    "license": "proprietary",
+    "version": "0.1.0",
+    "require": {
+        "php": "^8.3",
+        "telegram-platform/contracts": "^0.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Platform\\Modules\\Moderation\\": "src/"
+        }
+    },
+    "minimum-stability": "stable"
+}

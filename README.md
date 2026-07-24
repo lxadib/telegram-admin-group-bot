@@ -60,7 +60,16 @@ tests/          Unit, Integration, Architecture
 
 ## Status
 
-Phase 6 (Telegram adapter) complete: update ingress, `/start` + callback routing,
-ViewModel rendering via `BotGateway`. Fixture tests drive JSON updates without a
-network; `apps/bot/bin/bot poll` long-polls when `TELEGRAM_BOT_TOKEN` is set.
-Next: Phase 7 product MVP.
+Phase 7 (product MVP) complete: Telegram admin commands drive real domain flows —
+`/activate` a license, `/bind` a group, and `/warn` · `/mute` · `/ban` members —
+with license (capability) gating before RBAC and audit + domain events on every
+action. Telegram stays transport-only; handlers orchestrate contracts.
+
+- `modules/moderation` provides `ModerationServiceInterface` (feature-gated).
+- `ActorContextResolver` derives a per-request `ActorContext` (MVP: one tenant per
+  Telegram user; set `TELEGRAM_SUPER_OWNER_ID` for a bypass operator).
+- End-to-end fixture flow (`/activate → /bind → /mute`) runs without a network;
+  `apps/bot/bin/bot poll` long-polls when `TELEGRAM_BOT_TOKEN` is set.
+
+Console boots 7 modules (`modules_enabled=7`). Next: durable persistence for
+moderation/nav state, outbound queue/flood-control, and richer admin menus.

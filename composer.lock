@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "de3df17a041791fe1d5bcf9da33f67f9",
+    "content-hash": "f16e9f1d473fe820a7cbb105d489129f",
     "packages": [
         {
             "name": "laravel/serializable-closure",
@@ -739,6 +739,33 @@
                 "proprietary"
             ],
             "description": "Licenses module: activation, capability gate, snapshots.",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "telegram-platform/module-moderation",
+            "version": "0.1.0",
+            "dist": {
+                "type": "path",
+                "url": "modules/moderation",
+                "reference": "017ccbf9880c57f14e2ebf496f2d436eb39e4d0e"
+            },
+            "require": {
+                "php": "^8.3",
+                "telegram-platform/contracts": "^0.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Platform\\Modules\\Moderation\\": "src/"
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "description": "Moderation module: warn, mute, ban with capability gating and audit.",
             "transport-options": {
                 "symlink": true,
                 "relative": true

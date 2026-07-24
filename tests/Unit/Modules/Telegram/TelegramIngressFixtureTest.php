@@ -16,6 +16,7 @@ use Platform\Contracts\Users\UserDirectoryInterface;
 use Platform\Kernel\Bootstrap\Kernel;
 use Platform\Modules\Groups\GroupsModule;
 use Platform\Modules\Licenses\LicensesModule;
+use Platform\Modules\Moderation\ModerationModule;
 use Platform\Modules\Permissions\PermissionsModule;
 use Platform\Modules\Telegram\TelegramModule;
 use Platform\Modules\Ui\UiModule;
@@ -33,6 +34,7 @@ final class TelegramIngressFixtureTest extends TestCase
             LicensesModule::class,
             PermissionsModule::class,
             GroupsModule::class,
+            ModerationModule::class,
             UiModule::class,
             TelegramModule::class,
         ];
